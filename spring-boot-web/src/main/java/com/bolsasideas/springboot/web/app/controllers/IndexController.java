@@ -1,9 +1,11 @@
 package com.bolsasideas.springboot.web.app.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,10 +16,19 @@ import com.bolsasideas.springboot.web.app.models.Usuario;
 @Controller
 @RequestMapping("/app")
 public class IndexController {
+	
+	@Value("${texto.indexController.index.titulo}")
+	private String textoIndex;
+	
+	@Value("${texto.indexController.perfil.titulo}")
+	private String textoPerfil;
+	
+	@Value("${texto.indexController.listar.titulo}")
+	private String textoListar;
 
 	@GetMapping({ "/index", "/", "", "/home" })
 	public String index(Map<String, Object> model) {
-		model.put("titulo", "Hola Spring Framework!");
+		model.put("titulo", textoIndex);
 		return "index.html";
 	}
 
@@ -28,18 +39,21 @@ public class IndexController {
 		usuario.setApellido("Rivera");
 		usuario.setEmail("andresCorreo@email.com");
 		model.addAttribute("usuario", usuario);
-		model.addAttribute("titulo", "Perfil del Usuario: ".concat(usuario.getNombre()));
+		model.addAttribute("titulo", textoPerfil.concat(usuario.getNombre()));
 		return "perfil";
 	}
 
 	@RequestMapping("/listar")
 	public String listar(Model model) {
-		List<Usuario> usuarios = Arrays.asList();
-		usuarios.add(new Usuario("Andres","Carcamo","acarcamo@email.com"));
-		usuarios.add(new Usuario("Jak","Solis","jsolis@email.com"));
-		usuarios.add(new Usuario("Patricia","Longeira","plongeira@email.com"));
-		model.addAttribute("usuarios",usuarios);
-		model.addAttribute("titulo", "Listado de usuarios");
+		model.addAttribute("titulo", textoListar);
 		return "listar";
+	}
+
+	@ModelAttribute("usuarios")
+	public List<Usuario> poblarUsuarios() {
+		List<Usuario> usuarios = Arrays.asList(new Usuario("Andres", "Carcamo", "acarcamo@email.com"),
+				new Usuario("Jak", "Solis", "jsolis@email.com"),
+				new Usuario("Patricia", "Longeira", "plongeira@email.com"));
+		return usuarios;
 	}
 }

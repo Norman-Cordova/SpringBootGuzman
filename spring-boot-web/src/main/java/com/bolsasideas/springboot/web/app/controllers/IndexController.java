@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -17,13 +18,13 @@ import com.bolsasideas.springboot.web.app.models.Usuario;
 @RequestMapping("/app")
 public class IndexController {
 	
-	@Value("${texto.indexController.index.titulo}")
+	@Value("${textoIndex}")
 	private String textoIndex;
 	
-	@Value("${texto.indexController.perfil.titulo}")
+	@Value("${textoPerfil}")
 	private String textoPerfil;
 	
-	@Value("${texto.indexController.listar.titulo}")
+	@Value("${textoListar}")
 	private String textoListar;
 
 	@GetMapping({ "/index", "/", "", "/home" })
